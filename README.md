@@ -1,4 +1,4 @@
-# Laravel Project
+# Laravel Books
 
 This is a Laravel 12 project scaffolded with default Laravel skeleton, including factories, seeders, and queue workers.
 
