@@ -36,6 +36,18 @@
         }
     },
     "scripts": {
+        "migrate:fresh": [
+            "@php artisan migrate:fresh"
+        ],
+        "queue:work": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#fdba74,#93c5fd,#c4b5fd,#bbf7d0\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" --names='worker1,worker2,worker3,worker4'"
+        ],
+        "seed:fresh": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php artisan migrate:fresh --seed",
+            "npx concurrently -c \"#fdba74,#93c5fd,#c4b5fd,#bbf7d0\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3 --verbose\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3 --verbose\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3 --verbose\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3 --verbose\" \"tail -f storage/logs/laravel.log\" --names='worker1,worker2,worker3,worker4,log'"
+        ],
         "post-autoload-dump": [
             "@php artisan config:clear",
             "@php artisan clear-compiled",
@@ -54,7 +66,11 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74,#bbf7d0,#f87171\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" \"npm run dev\" --names='server,listen,worker1,worker2,vite'"
+        ],
+        "prod": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#fdba74,#bbf7d0\" \"npm run build\" \"php artisan serve --env=production\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" \"php artisan queue:work database --sleep=1 --timeout=120 --tries=3\" --names='build,server,worker1,worker2'"
         ],
         "test": [
             "@php artisan config:clear --ansi",
