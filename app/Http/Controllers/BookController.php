@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\StoreRatingJob;
 use App\Models\{Book, Author, Rating};
 
 class BookController extends Controller
@@ -58,8 +59,8 @@ class BookController extends Controller
     public function showInputRating(){
         $authors = Author::with('books')
 						->select('authors.name', 'authors.id')
-            ->orderBy('authors.name')
-            ->get();
+                        ->orderBy('authors.name')
+                        ->get();
 
         return view('input_rating', compact('authors'));
     }
@@ -72,11 +73,11 @@ class BookController extends Controller
             'score' => 'required|integer|min:1|max:10',
         ]);
 
-				Rating::create([
-						'author_id' => $validated['author_id'],
-						'book_id' => $validated['book_id'],
-						'score' => $validated['score'],
-				]);
+        StoreRatingJob::dispatch(
+            $validated['author_id'],
+            $validated['book_id'],
+            $validated['score']
+        );
 
         return redirect()->route('home')->with('success', 'Rating submitted successfully!');
     }
