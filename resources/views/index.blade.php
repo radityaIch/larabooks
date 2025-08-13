@@ -40,6 +40,9 @@
 
     <section>
       <div class="flex flex-col items-center mt-10">
+        @if(session('success'))
+          <h2 class="text-2xl mb-4 text-green-600">{{ session('success') }}</h2>
+        @endif
         @if(request('search'))
         <h2 class="text-2xl mb-4">Search Results for "{{ request('search') }}"</h2>
         @endif
