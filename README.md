@@ -56,10 +56,10 @@ DB_PASSWORD=<your-database-password>
 composer run seed:fresh
 ```
 
-7. Wait until process finished with output like this, then stop the process:
+7. Wait until process seeding finished with output similar like this, then stop the process:
 
 ```bash
-[log] [2025-08-13 13:25:34] local.INFO: ✅ [Ratings] Seeding complete. Batch ID: 9f9fe60d-06fe-4f70-88d3-c3b7e29fb9ec  
+[log] [2025-08-13 13:25:34] local.INFO: ✅ [Ratings] Seeding complete
 [log] [2025-08-13 13:25:34] local.INFO: ℹ️ [Ratings] Batch finished. Batch finished. Press CTRL + C to stop the seeder.
 ```
 
