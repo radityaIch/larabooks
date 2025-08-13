@@ -78,6 +78,6 @@ class BookController extends Controller
 						'score' => $validated['score'],
 				]);
 
-        return redirect()->route('famous_authors')->with('success', 'Rating submitted successfully!');
+        return redirect()->route('home')->with('success', 'Rating submitted successfully!');
     }
 }
